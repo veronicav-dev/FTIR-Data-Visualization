@@ -1,0 +1,40 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+from pathlib import Path
+
+spectra =[ Path(""),
+    Path("")]
+
+
+plt.figure(figsize=(10, 6))
+
+for file in spectra:
+    print("Looking for:", file)
+    print("Exists:", file.exists())
+
+    if file.exists() == False:
+        continue
+
+    data = np.genfromtxt(file, delimiter=",", skip_header=1)
+
+    print("Data shape:", data.shape)
+    print("First few rows:")
+    print(data[:5])
+    print()
+
+    x = data[:, 0]
+    y = data[:, 1]
+
+    plt.plot(x, y, label=file.stem)
+
+plt.title("Overlay of IR Spectra")
+plt.xlabel("Wavenumber")
+plt.ylabel("Intensity")
+plt.legend()
+plt.grid(False)
+plt.gca().invert_xaxis()
+plt.gca().xaxis.tick_top()
+plt.gca().xaxis.set_label_position("top")
+
+plt.show()
